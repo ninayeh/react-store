@@ -8,10 +8,29 @@ class Products extends React.Component {
       <div>
         <ToolBox />
         <div className="products">
-          <Product />
-          <Product />
-          <Product />
-          <Product />
+          <div className="columns is-multiline is-desktop">
+            <div className="column is-3">
+              <Product />
+            </div>
+            <div className="column is-3">
+              <Product />
+            </div>
+            <div className="column is-3">
+              <Product />
+            </div>
+            <div className="column is-3">
+              <Product />
+            </div>
+            <div className="column is-3">
+              <Product />
+            </div>
+            <div className="column is-3">
+              <Product />
+            </div>
+
+          </div>
+          
+          
         </div>
       </div>
     )
