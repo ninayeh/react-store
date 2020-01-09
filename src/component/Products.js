@@ -5,22 +5,44 @@ import axios from 'commons/axios'
 
 class Products extends React.Component {
   state = {
-    products: [ ]
+    products: [ ], 
+    sourceProduct: []
   }
 
   componentDidMount() {
     axios.get('/products').then(response => {
-      console.log(response)
+      // console.log(response)
       this.setState({
-        products: response.data
+        products: response.data,
+        sourceProduct: response.data
       })
     })
+  }
+
+  search = text => {
+    // console.log(text);
+    // 1. Get new array 複製一個新的陣列
+    let _products = [...this.state.sourceProduct]
+    // 2. Filter new array
+    // p.name: Abcd 
+    // text: ab ===> ['Ab']
+    // text: '' ===> ["", "", "", "", ""]
+    _products = _products.filter(p => {
+      const matchArray = p.name.match(new RegExp(text, 'gi'))
+      // return matchArray !== null 
+      return !!matchArray
+    })
+    // 3. Set state
+    this.setState({
+      products: _products
+    }) 
+
   }
 
   render () {
     return (
       <div>
-        <ToolBox />
+        <ToolBox something="Hello" search={this.search}/>
         <div className="products">
           <div className="columns is-multiline is-desktop">
             {
