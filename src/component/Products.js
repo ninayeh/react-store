@@ -2,6 +2,7 @@ import React from 'react'
 import ToolBox from './ToolBox'
 import Product from './Product'
 import axios from 'commons/axios'
+import {TransitionGroup, CSSTransition} from 'react-transition-group'
 
 class Products extends React.Component {
   state = {
@@ -45,12 +46,15 @@ class Products extends React.Component {
         <ToolBox something="Hello" search={this.search}/>
         <div className="products">
           <div className="columns is-multiline is-desktop">
-            {
-              this.state.products.map( p => (
-                <div className="column is-3" key={p.id}>
-                  <Product product={p}/>
-                </div>
-            )) }
+            <TransitionGroup component={null}>
+              { this.state.products.map( p => (
+                  <CSSTransition classNames="product-fade" timeout={300} key={p.id}>
+                    <div className="column is-3" key={p.id}>
+                      <Product product={p}/>
+                    </div>
+                  </CSSTransition>
+              )) }
+            </TransitionGroup>
           </div>       
         </div>
       </div>
