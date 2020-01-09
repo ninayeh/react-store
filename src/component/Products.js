@@ -3,6 +3,7 @@ import ToolBox from './ToolBox'
 import Product from './Product'
 import axios from 'commons/axios'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
+import Panel from 'component/Panel'
 
 class Products extends React.Component {
   state = {
@@ -37,7 +38,10 @@ class Products extends React.Component {
     this.setState({
       products: _products
     }) 
+  }
 
+  toAdd = () => {
+    Panel.open()
   }
 
   render () {
@@ -56,6 +60,7 @@ class Products extends React.Component {
               )) }
             </TransitionGroup>
           </div>       
+          <button className="button is-primary add-btn" onClick={this.toAdd}>add</button>
         </div>
       </div>
     )
