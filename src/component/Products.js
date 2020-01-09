@@ -1,6 +1,7 @@
 import React from 'react'
 import ToolBox from './ToolBox'
 import Product from './Product'
+import axios from 'commons/axios'
 
 class Products extends React.Component {
   state = {
@@ -8,12 +9,10 @@ class Products extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3003/products')
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
+    axios.get('/products').then(response => {
+      console.log(response)
       this.setState({
-        products: data
+        products: response.data
       })
     })
   }
