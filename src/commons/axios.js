@@ -1,8 +1,13 @@
 import _axios from 'axios'
 
-const instant = _axios.create({
-  baseURL: 'http://localhost:3003',
-  timeout: 1000
-}) ;
+const axios = baseURL => {
 
-export default instant;
+  const instant = _axios.create({
+    baseURL: baseURL || 'http://localhost:3003',
+    timeout: 1000
+  }) ;
+
+  return instant;
+}
+
+export default axios();
