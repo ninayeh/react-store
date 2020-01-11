@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'commons/axios'
+import { toast } from 'react-toastify';
 
 class AddInventory extends React.Component {
   state = {
@@ -27,8 +28,7 @@ class AddInventory extends React.Component {
     axios.post('products', product).then( res => {
       // console.log(res.data);
       this.props.close(res.data)
-      alert('Add success')
-      
+      toast.success('Add success');
     })
   }
 
@@ -104,8 +104,15 @@ class AddInventory extends React.Component {
               <button className="button is-link">Submit</button>
             </div>
             <div className="control">    
-              <button className="button" type="button" onClick={() => this.props.close()}>Cancel</button>
+              <button 
+                className="button" 
+                type="button" 
+                onClick={() => this.props.close()}
+              >
+                Cancel
+              </button>
             </div>
+
           </div>
         </form>       
       </div>

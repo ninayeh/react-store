@@ -12,7 +12,7 @@ import { render } from 'react-dom'
 class Panel extends React.Component {
   state = {
     active: false, 
-    content: '', 
+    pcomponent: '', 
     callback: () => {}
   }
 
@@ -28,7 +28,7 @@ class Panel extends React.Component {
     
     this.setState({
       active: true,
-      content: _component,
+      pcomponent: _component,
       callback: callback
     })
   }
@@ -52,7 +52,7 @@ class Panel extends React.Component {
           <div className="head">
             <span className="close" onClick={() => {this.close()}}>x</span>        
               {/* {(1)、子组件作為参数傳遞並被渲染} */}
-              {this.state.content}
+              {this.state.pcomponent}
 
           </div> 
         </div>
