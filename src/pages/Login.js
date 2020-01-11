@@ -12,7 +12,7 @@ class Login extends React.Component {
     // 1. 阻止預設事件行為
     event.preventDefault();
     // 2. 取得表單的資料
-    console.log(this.state)
+    // console.log(this.state)
     // 3. 登入的邏輯
 
     // 4. 跳轉頁面

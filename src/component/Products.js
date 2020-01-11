@@ -9,7 +9,7 @@ import AddInventory from 'component/AddInventory'
 class Products extends React.Component {
   state = {
     products: [ ], 
-    sourceProduct: []
+    sourceProducts: []
   }
 
   componentDidMount() {
@@ -17,7 +17,7 @@ class Products extends React.Component {
       // console.log(response)
       this.setState({
         products: response.data,
-        sourceProduct: response.data
+        sourceProducts: response.data
       })
     })
   }
@@ -25,7 +25,7 @@ class Products extends React.Component {
   search = text => {
     // console.log(text);
     // 1. Get new array 複製一個新的陣列
-    let _products = [...this.state.sourceProduct]
+    let _products = [...this.state.sourceProducts]
     // 2. Filter new array
     // p.name: Abcd 
     // text: ab ===> ['Ab']
@@ -46,11 +46,25 @@ class Products extends React.Component {
     Panel.open({
       component: AddInventory,
       callback: data => {
-        console.log( 'Product Data:', data)
+        console.log(data)
+        if (data) {
+          this.add(data);
+        }
       }
-    })
+    });
+  };
 
-  }
+  add = product => {
+    const _products = [...this.state.products]; 
+    _products.push(product);
+    const _sProducts = [...this.state.sourceProducts]; 
+    _sProducts.push(product);
+    this.setState({
+      products: _products,
+      sourceProducts: _sProducts
+        
+    });
+  };
 
   render () {
     return (

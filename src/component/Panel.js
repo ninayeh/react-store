@@ -47,14 +47,14 @@ class Panel extends React.Component {
     }
     return (
       <div className={_class[this.state.active]}>
-        <div className="over-layer"  onClick={this.close}></div>
+        <div className="over-layer"  onClick={() => {this.close()}}></div>
         <div className="panel">
           <div className="head">
-            <span className="close" onClick={this.close}>x</span>        
+            <span className="close" onClick={() => {this.close()}}>x</span>        
               {/* {(1)、子组件作為参数傳遞並被渲染} */}
               {this.state.content}
 
-          </div>     
+          </div> 
         </div>
       </div>
     )
@@ -65,5 +65,5 @@ const _div = document.createElement('div')
 document.body.appendChild(_div)
 
 const _panel = render(<Panel />, _div)
-console.log(_panel)
+// console.log(_panel)
 export default _panel;
