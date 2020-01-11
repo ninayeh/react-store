@@ -1,7 +1,24 @@
 import React from 'react'
+import Panel from 'component/Panel'
 import {formatPrice} from 'commons/helper'
+import EditInventory from './EditInventory'
 
 class Product extends React.Component {
+
+  toEdit = () => {
+    Panel.open({
+      component: EditInventory, 
+      callback: data => {
+        console.log(data)
+        if (data){
+          this.props.update(data)
+        }       
+      }, 
+      action: "say hi", 
+      props: {product: this.props.product}
+      // props: this.props.product
+    });
+  };
 
   
   render () {
@@ -13,6 +30,11 @@ class Product extends React.Component {
     return (
       <div className={_pClass[status]}>
         <div className="p-content">
+          <div className="p-head has-text-right" onClick={this.toEdit}>
+            <span className="icon edit-btn">
+              <i className="fas fa-sliders-h"></i>
+            </span>
+          </div>
           <div className="img-wrapper">
             <div className="out-stock-text">Out Of Stock</div>
             <figure className="image is-4by3">

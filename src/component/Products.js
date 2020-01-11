@@ -66,6 +66,21 @@ class Products extends React.Component {
     });
   };
 
+  update =  product => {
+    const _products = [...this.state.products]; 
+    const _index = _products.findIndex(p => p.id === product.id)
+    _products.splice(_index, 1, product);
+    const _sProducts = [...this.state.sourceProducts]; 
+    const _sindex = _products.findIndex(p => p.id === product.id)
+    _sProducts.splice(_sindex, 1, product);
+    
+    
+    this.setState({
+      products: _products,
+      sourceProducts: _sProducts     
+    });
+  };
+
   render () {
     return (
       <div>
@@ -76,7 +91,7 @@ class Products extends React.Component {
               { this.state.products.map( p => (
                   <CSSTransition classNames="product-fade" timeout={300} key={p.id}>
                     <div className="column is-3" key={p.id}>
-                      <Product product={p}/>
+                      <Product product={p} update={this.update} />
                     </div>
                   </CSSTransition>
               )) }

@@ -16,12 +16,20 @@ class Panel extends React.Component {
     callback: () => {}
   }
 
-  open = (options) => {
+  open = (options = {
+    props: {}, 
+    component: null, 
+    callback: () => {}, 
+    action: ""
+  }) => {
     // {component} 是一個構造函數
-    const { component, callback } = options
+    const { props, component, callback, action } = options
+    // console.log(options)
+    // console.log(props)
     const _key = new Date().getTime();
     // (1)創造一個可渲染的元件實體 _component (2)、子组件可以關閉弹出層
     const _component = React.createElement(component,{
+      ...props,
       close: this.close, 
       key: _key  
     })
