@@ -23,7 +23,7 @@ class Panel extends React.Component {
     action: ""
   }) => {
     // {component} 是一個構造函數
-    const { props, component, callback, action } = options
+    const { props, component, callback } = options
     // console.log(options)
     // console.log(props)
     const _key = new Date().getTime();

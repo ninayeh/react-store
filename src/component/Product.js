@@ -15,7 +15,10 @@ class Product extends React.Component {
         }       
       }, 
       action: "say hi", 
-      props: {product: this.props.product}
+      props: {
+        product: this.props.product,
+        deleteProduct: this.props.delete 
+      }
       // props: this.props.product
     });
   };
