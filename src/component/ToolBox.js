@@ -1,4 +1,6 @@
 import React from 'react'
+// import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 class ToolBox extends React.Component {
 
@@ -21,6 +23,13 @@ class ToolBox extends React.Component {
     this.props.search('')
   };
 
+  goCart = () => {
+    // 會噴錯，因為ToolBox 這個沒有經過 Router，所以不會有 history
+    // 所以需要 withRouter 包裝一下，讓他可以用 history
+    this.props.history.push('/cart')
+
+  }
+
   render () {
     return (
       <div className="tool-box">
@@ -40,7 +49,8 @@ class ToolBox extends React.Component {
             </div>
           </div>
         </div>
-        <div className="cart-box">
+        {/* <Link to="/cart" className="cart-box"></Link> */}
+        <div to="/cart" className="cart-box" onClick={this.goCart}>
           <i className="fas fa-shopping-cart"></i>
           <span className="cart-number">({this.props.cartNum})</span>
         </div>
@@ -49,4 +59,4 @@ class ToolBox extends React.Component {
   }
 }
 
-export default ToolBox;
+export default withRouter(ToolBox);
