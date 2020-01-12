@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { formatPrice } from 'commons/helper';
 import axios from 'commons/axios'
 // import { toast } from 'react-toastify';
@@ -6,7 +6,15 @@ import axios from 'commons/axios'
 const CartItem = (props) => {
   const [mount, setMount] = useState(props.cart.mount)
   const {id, name, image, price} = props.cart || {}
-  const sumPrice = formatPrice(parseInt(price) * mount)
+
+  //傳遞一個「建立」function 及依賴 array。
+  //useMemo 只會在依賴改變時才重新計算 memoized 的值。
+  //這個最佳化可以避免在每次 render 都進行昂貴的計算。
+  // const sumPrice = formatPrice(parseInt(price) * mount)
+  const sumPrice = useMemo(() => {
+    return formatPrice(parseInt(price) * mount)
+  }, [mount, price])
+  // 只有當 [mount, price] 這兩個值發生變化時，才重新計算
 
   const handleChange = e => {
     const _mount = parseInt(e.target.value)

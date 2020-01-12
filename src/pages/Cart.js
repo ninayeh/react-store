@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useMemo } from 'react'
 import Layout from 'Layout';
 import CartItem from 'component/CartItem'
 import axios from 'commons/axios';
@@ -17,13 +17,20 @@ const Cart = () => {
     console.log("===useEffect===")
     axios.get('/carts').then(res => setCarts(res.data)); 
   }, []);
-
-  const totalPrice = () => {
-    console.log("===totalPrice===")
-    const totalPrice = carts.map(cart => cart.mount * parseInt(cart.price))
-    .reduce((a, value) => a + value, 0)
+  
+  // const totalPrice = () => {
+  //   console.log("===totalPrice===")
+  //   const totalPrice = carts.map(cart => cart.mount * parseInt(cart.price))
+  //   .reduce((a, value) => a + value, 0)
+  //   return formatPrice(totalPrice)
+  // }
+  // 用 useMemo 改寫
+  const totalPrice = useMemo(() => {
+    const totalPrice = carts
+      .map(cart => cart.mount * parseInt(cart.price))
+      .reduce((a, value) => a + value, 0)
     return formatPrice(totalPrice)
-  }
+  }, [carts]);
 
   // 更新 carts 陣列，為了讓他呼叫 totalPrice 重新計算金額
   const updateCart = (cart) => {
@@ -66,7 +73,7 @@ const Cart = () => {
         }
         <div className="cart-total">
           Total:
-          <span className="total-price"> {totalPrice()} </span>
+          <span className="total-price"> {totalPrice} </span>
         </div>
       </div>  
     </Layout>
