@@ -9,8 +9,13 @@ import AddInventory from 'component/AddInventory'
 class Products extends React.Component {
   state = {
     products: [ ], 
-    sourceProducts: []
+    sourceProducts: [],
+    cartNum: 0
   }
+
+  // cartNum 不放在 ToolBox 是因為 ToolBox 與 Product 
+  // 是平行的兄弟層級，需要透過共同的 Products 父層級來做
+  // 參數的傳遞（搜尋「狀態提升」）
 
   componentDidMount() {
     axios.get('/products').then(response => {
@@ -18,8 +23,9 @@ class Products extends React.Component {
       this.setState({
         products: response.data,
         sourceProducts: response.data
-      })
-    })
+      });
+    });
+    this.updateCartNum();
   }
 
   search = text => {
@@ -89,10 +95,32 @@ class Products extends React.Component {
     });
   }
 
+  // 更新購物車數量
+  updateCartNum = async () => {
+    const cartNum = await this.initCartNum()
+    this.setState({
+      cartNum: cartNum
+    })
+  }
+  // 計算所有在購物車裡的商品數量，使用異步函數
+  initCartNum = async () => {
+    const res = await axios.get('/carts')
+    const carts  = res.data || []
+    const cartNum = carts
+      .map(cart => cart.mount) // ex.[2, 1, 1]
+      .reduce((a, value) => a + value, 0 ) //a:累加器 value: 當前的值
+    return cartNum
+  }
+
+
+
   render () {
     return (
       <div>
-        <ToolBox something="Hello" search={this.search}/>
+        <ToolBox 
+          something="Hello" 
+          search={this.search} 
+          cartNum={this.state.cartNum}/>
         <div className="products">
           <div className="columns is-multiline is-desktop">
             <TransitionGroup component={null}>
@@ -102,7 +130,8 @@ class Products extends React.Component {
                       <Product 
                         product={p} 
                         update={this.update}
-                        delete={this.delete} />
+                        delete={this.delete} 
+                        updateCartNum ={this.updateCartNum}/>
                     </div>
                   </CSSTransition>
               )) }

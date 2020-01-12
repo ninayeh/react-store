@@ -3,7 +3,7 @@ import React from 'react'
 class ToolBox extends React.Component {
 
   state = {
-    searchText: "" 
+    searchText: ''
   }
 
   handlechange = e => {
@@ -42,7 +42,7 @@ class ToolBox extends React.Component {
         </div>
         <div className="cart-box">
           <i className="fas fa-shopping-cart"></i>
-          <span className="cart-number">(0)</span>
+          <span className="cart-number">({this.props.cartNum})</span>
         </div>
       </div>
     )

@@ -55,6 +55,7 @@ class Product extends React.Component {
   
       }    
       toast.success('Add to cart!')  
+      this.props.updateCartNum(); //實際呼叫
     } catch (error) {
       toast.error('Add cart failed')  
     }
