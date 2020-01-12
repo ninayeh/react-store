@@ -1,27 +1,30 @@
 import React from 'react';
+import { formatPrice } from 'commons/helper';
 // import axios from 'commons/axios'
 // import { toast } from 'react-toastify';
 
-const CartItem = () => {
+const CartItem = (props) => {
+  const {name, image, price, mount} = props.cart || {}
+  const sumPrice = formatPrice(parseInt(price) * mount)
   return (
     <div className="columns is-vcentered">
       <div className="column is-narrow">
         <span className="close">X</span>
       </div>
       <div className="column is-narrow">
-        <img src="images/1.jpg" alt="" width="100"/>
+        <img src={image} alt={name} width="100"/>
       </div>
       <div className="column cart-name is-narrow">
-        Test Product
+        {name}
       </div>
       <div className="column">
-        <span className="price">432.00</span>
+        <span className="price">{formatPrice(price)}</span>
       </div>
       <div className="column">
-        <input type="number" className="input num-input"/>
+        <input type="number" className="input num-input" defaultValue={mount}/>
       </div>
       <div className="column">
-        <span className="sum-price">432.00</span>
+        <span className="sum-price">{sumPrice}</span>
       </div>
     </div>
   )
