@@ -3,6 +3,7 @@ import Layout from 'Layout';
 import CartItem from 'component/CartItem'
 import axios from 'commons/axios';
 import { formatPrice } from 'commons/helper';
+import {TransitionGroup, CSSTransition} from 'react-transition-group'
 
 const Cart = () => {
   // 若要拿到購物車裡的內容，原本做法是將此函式改成 class 函式
@@ -45,17 +46,24 @@ const Cart = () => {
       <div className="cart-page">
         <div className="cart-title">Shopping Cart</div>
         <div className="cart-list">
+          <TransitionGroup component={null}>
           {
             carts.map(cart => (
-              <CartItem 
-                key={cart.id} 
-                cart={cart} 
-                updateCart={updateCart}
-                deleteCart={deleteCart}
-              />))
+              <CSSTransition classNames="cart-item" timeout={300} key={cart.id}>
+                <CartItem 
+                  key={cart.id} 
+                  cart={cart} 
+                  updateCart={updateCart}
+                  deleteCart={deleteCart}
+                />
+              </CSSTransition>
+            ))
           }
-          
+          </TransitionGroup>        
         </div> 
+        {
+          carts.length === 0 ? <p className="no-cart">NO GOODS</p> : ""
+        }
         <div className="cart-total">
           Total:
           <span className="total-price"> {totalPrice()} </span>
