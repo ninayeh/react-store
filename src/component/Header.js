@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const Header = (props) => {
   return (
@@ -8,15 +9,15 @@ const Header = (props) => {
           <a href="/">Home</a>
         </div>
         <div className="end">
-          {props.nickname ? (
+          {props.user.nickname ? (
             <span className="nickname">
               <i className="far fa-user"></i>
-              {props.nickname}
+              {props.user.nickname} 
             </span>
           ):(
             <React.Fragment>
-              <a href="/">Login</a>
-              <a href="/">Sign Up</a>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Sign Up</Link>
             </React.Fragment> 
           )}
         </div>

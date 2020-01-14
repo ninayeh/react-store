@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Header from 'component/Header';
 
-const Layout = props => (
-  <div className="mamin">
-    <Header />
-    {/* 使用 props.children 獲取實際要渲染的元件*/}
-    {props.children}
-  </div>
-)
+const Layout = props => {
+  const user = useMemo(() => {
+    const user = global.auth.getUser() || {}; return user; // 避免空值報錯
+  }, []);
+  return (
+    <div className="main">
+      <Header user={user} /> 
+      {/* child component */} 
+      {props.children}
+    </div>
+  );
+};
 
 export default Layout;

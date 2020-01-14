@@ -1,59 +1,76 @@
 import React from 'react'
+import axios from 'commons/axios'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify';
 
 
-class Login extends React.Component {
-
-  state = {
-    email: '', 
-    password: ''
-  }
-
-  handleSubmit = event  => {
-    // 1. 阻止預設事件行為
-    event.preventDefault();
-    // 2. 取得表單的資料
-    // console.log(this.state)
-    // 3. 登入的邏輯
-
-    // 4. 跳轉頁面
-    //this.props.history.push('/');
-  }
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-      
-    })
-  }
-
-  render() {
-    return (
+export default function Login(props) {
+  const { register, handleSubmit, errors} = useForm();
+  
+  const onSubmit = async data => {
+    // 取得表單資料
+    console.log(data);
+    // 處理登入邏輯
+    try {
+      const {email, password} = data;
+      const res = await axios.post('/auth/login', {email, password});
+      const jwToken = res.data;
+      console.log(jwToken);
+      // 拿到的 token 存在瀏覽器 local
+      global.auth.setToken(jwToken);
+      // 跳轉到首頁
+      props.history.push('/');
+      toast.success('Login Success');
+    } catch (error) {
+      const { message } = error.response.data;
+      toast.error(message);
+    }
+  };
+  // console.log(errors);
+  
+  return (
     <div className="login-wrapper">
-      <form className="box login-box" onSubmit={this.handleSubmit}>
+      <form className="box login-box" onSubmit={handleSubmit(onSubmit)}>
         <div className="field">
           <label className="lable">Email</label>
           <div className="control">
             <input 
-              className="input" 
+              className={`input ${errors.email && 'is-danger'}`} 
               type="text" 
               placeholder="Email" 
               name="email"
-              onChange= {this.handleChange}
-              value={this.state.email}
+              ref={register({
+                required: 'password is required', 
+                pattern: {
+                  value: /^([A-Za-z0-9_\-.])+@/,
+                  message: 'invalid email'
+                } 
+                })}
             />
+            {errors.email && (
+              <p className="helper has-text-danger">{errors.email.message}</p>
+            )}
           </div>
         </div>
         <div className="field">
           <label className="lable">Password</label>
           <div className="control">
             <input 
-              className="input" 
+              className={`input ${errors.password && 'is-danger'}`} 
               type="password" 
               placeholder="Password" 
               name="password"
-              onChange= {this.handleChange}
-              value={this.state.password}
+              ref={register({
+                required: 'password is required', 
+                minLength: {
+                  value: 6,
+                  message: 'cannot be less than 6 digits' }
+                })}
             />
+            {errors.password && (
+              <p className="helper has-text-danger">
+              {errors.password.message}</p>
+            )}
           </div>
         </div>
         <div className="control">
@@ -61,9 +78,7 @@ class Login extends React.Component {
         </div>
       </form>
     </div>
-    
-    )
-  }
-}
+  )
+};
 
-export default Login;
+
