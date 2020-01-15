@@ -46,6 +46,7 @@ const logout = () => {
 // 類似 export 的東西，不過是給全域使用的，所以要在 index 導入這個檔案
 global.auth = {
   setToken,
+  getToken,
   getUser,
   isLogin,
   logout

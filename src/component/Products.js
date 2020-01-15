@@ -103,6 +103,7 @@ class Products extends React.Component {
     })
   }
   // 計算所有在購物車裡的商品數量，使用異步函數
+  // 在這邊對後端做請求
   initCartNum = async () => {
     const res = await axios.get('/carts')
     const carts  = res.data || []
