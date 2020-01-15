@@ -136,8 +136,10 @@ class Products extends React.Component {
                   </CSSTransition>
               )) }
             </TransitionGroup>
-          </div>       
-          <button className="button is-primary add-btn" onClick={this.toAdd}>add</button>
+          </div> 
+          {(global.auth.getUser() || {}).type === 1 && (     
+            <button className="button is-primary add-btn" onClick={this.toAdd}>add</button>
+          )}
         </div>
       </div>
     )

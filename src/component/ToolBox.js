@@ -1,6 +1,7 @@
 import React from 'react'
 // import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 class ToolBox extends React.Component {
 
@@ -24,6 +25,12 @@ class ToolBox extends React.Component {
   };
 
   goCart = () => {
+    // 判斷目前使用者是否已經登入
+    if (!global.auth.isLogin()){
+      this.props.history.push('/login')
+      toast.info('Plaese Login First');
+      return;
+    }
     // 會噴錯，因為ToolBox 這個沒有經過 Router，所以不會有 history
     // 所以需要 withRouter 包裝一下，讓他可以用 history
     this.props.history.push('/cart')
