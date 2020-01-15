@@ -14,8 +14,9 @@ const Cart = () => {
   // 類似於 componentDidAMount 那樣的生命週期函數
   // 如果不傳遞第二個參數的話，會發現這個函式一直重複被執行
   useEffect(() => {
-    console.log("===useEffect===")
-    axios.get('/carts').then(res => setCarts(res.data)); 
+    const user = global.auth.getUser() || {}
+    // console.log("===useEffect===")
+    axios.get(`/carts?userId=${user.email}`).then(res => setCarts(res.data)); 
   }, []);
   
   // const totalPrice = () => {

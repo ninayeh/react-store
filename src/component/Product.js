@@ -32,6 +32,7 @@ class Product extends React.Component {
       return;
     }
     try {
+      const user = global.auth.getUser() || {}
       const { id, name, image, price } = this.props.product;
       // 查詢有沒有重複商品，異步函數
       // GET /cart?id=1&id=2
@@ -48,7 +49,8 @@ class Product extends React.Component {
           name,
           image,
           price,
-          mount: 1
+          mount: 1, 
+          userId: user.email
         };
 
         // 沒有重複商品的話就新增
