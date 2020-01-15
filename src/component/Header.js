@@ -1,7 +1,25 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
+
+import Panel from 'component/Panel'
+import UserProfile from 'component/UserProfile'
 
 const Header = (props) => {
+
+  const toProfile = () => {
+    Panel.open({
+      component: UserProfile, 
+      props: {
+        user: props.user
+      },
+      callback: data => {
+        console.log(data);
+        if(data === 'logout') {
+          props.history.go(0) // 刷新頁面
+        }
+      }
+    });
+  }
   return (
     <div className="header">
       <div className="grid">
@@ -10,7 +28,7 @@ const Header = (props) => {
         </div>
         <div className="end">
           {props.user.nickname ? (
-            <span className="nickname">
+            <span className="nickname" onClick={toProfile}>
               <i className="far fa-user"></i>
               {props.user.nickname} 
             </span>
@@ -26,4 +44,4 @@ const Header = (props) => {
   )
 }
 
-export default Header;
+export default withRouter(Header);

@@ -1,7 +1,7 @@
-import decode from 'jwt-decode';
-const JWT = 'store_token_id';
+import decode from "jwt-decode";
+const JWT = "store_token_id";
 
-const setToken = token => { 
+const setToken = token => {
   localStorage.setItem(JWT, token);
 };
 
@@ -17,21 +17,20 @@ const isLogin = () => {
 };
 
 // 檢查 token 是否超時
-const isTokenExpired = token => { 
-try {
-  const _info = decode(token);
-  if (_info.exp < Date.now() / 1000) {
-    return true;
+const isTokenExpired = token => {
+  try {
+    const _info = decode(token);
+    if (_info.exp < Date.now() / 1000) {
+      return true;
     } else return false;
   } catch (error) {
     return false;
-  } 
+  }
 };
-  
 
 // 取得 user 資料
-const getUser = () => { 
-  const jwToken = getToken(); 
+const getUser = () => {
+  const jwToken = getToken();
   if (isLogin()) {
     const user = decode(jwToken);
     return user;
@@ -40,10 +39,13 @@ const getUser = () => {
   }
 };
 
-
+const logout = () => {
+  localStorage.removeItem(JWT);
+};
 
 // 類似 export 的東西，不過是給全域使用的，所以要在 index 導入這個檔案
 global.auth = {
   setToken,
-  getUser
+  getUser,
+  logout
 };
