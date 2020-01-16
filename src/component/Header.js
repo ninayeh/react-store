@@ -13,7 +13,7 @@ const Header = (props) => {
         user: props.user
       },
       callback: data => {
-        console.log(data);
+        // console.log(data);
         if(data === 'logout') {
           props.history.go(0) // 刷新頁面
         }

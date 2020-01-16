@@ -10,13 +10,13 @@ export default function Login(props) {
   // 註冊邏輯
   const onSubmit = async data => {
     // 取得表單資料
-    console.log(data);
+    // console.log(data);
     // 處理註冊邏輯
     try {
       const {nickname, email, password} = data;
       const res = await axios.post('/auth/register', { nickname, email, password, type: 0 });
       const jwToken = res.data;
-      console.log(jwToken);
+      // console.log(jwToken);
       // 拿到的 token 存在瀏覽器 local
       global.auth.setToken(jwToken);
       // 跳轉到首頁

@@ -11,7 +11,7 @@ class Product extends React.Component {
     Panel.open({
       component: EditInventory,
       callback: data => {
-        console.log(data);
+        // console.log(data);
         if (data) {
           this.props.update(data);
         }
@@ -32,13 +32,20 @@ class Product extends React.Component {
       return;
     }
     try {
-      const user = global.auth.getUser() || {}
+      const user = global.auth.getUser() || {};
       const { id, name, image, price } = this.props.product;
       // 查詢有沒有重複商品，異步函數
       // GET /cart?id=1&id=2
-      const response = await axios.get(`/carts?productId=${id}`);
+      // const response = await axios.get(`/carts?productId=${id}`);
+      // 改成下面這段，避免 a 登出後換 b 加入購物車時，加到 a 的購物車
+      const response = await axios.get("/carts", {
+        params: {
+          productId: id,
+          userId: user.email
+        }
+      });
       const carts = response.data;
-      console.log(carts);
+      // console.log(carts);
       if (carts && carts.length > 0) {
         const cart = carts[0];
         cart.mount += 1;
@@ -49,7 +56,7 @@ class Product extends React.Component {
           name,
           image,
           price,
-          mount: 1, 
+          mount: 1,
           userId: user.email
         };
 
@@ -92,7 +99,7 @@ class Product extends React.Component {
           {this.renderManagerBtn()}
           <div className="img-wrapper">
             <div className="out-stock-text">Out Of Stock</div>
-            <figure className="image is-4by3">
+            <figure className="image is-1by1">
               <img src={image} alt={name} />
             </figure>
           </div>

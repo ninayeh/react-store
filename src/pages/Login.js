@@ -9,13 +9,13 @@ export default function Login(props) {
   
   const onSubmit = async data => {
     // 取得表單資料
-    console.log(data);
+    // console.log(data);
     // 處理登入邏輯
     try {
       const {email, password} = data;
       const res = await axios.post('/auth/login', {email, password});
       const jwToken = res.data;
-      console.log(jwToken);
+      // console.log(jwToken);
       // 拿到的 token 存在瀏覽器 local
       global.auth.setToken(jwToken);
       // 跳轉到首頁
