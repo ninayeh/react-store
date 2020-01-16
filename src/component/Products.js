@@ -97,28 +97,33 @@ class Products extends React.Component {
 
   // 更新購物車數量
   updateCartNum = async () => {
-    const cartNum = await this.initCartNum()
+    const cartNum = await this.initCartNum();
     this.setState({
       cartNum: cartNum
-    })
-  }
+    });
+  };
   // 計算所有在購物車裡的商品數量，使用異步函數
   // 在這邊對後端做請求
   initCartNum = async () => {
-    const user = global.auth.getUser() || {}
+    const user = global.auth.getUser();
     //const res = await axios.get('/carts')
-    const res = await axios.get(`/carts`, { 
-      params: {
-        userId: user.email
-      }
-    });
-    
-    const carts  = res.data || []
-    const cartNum = carts
-      .map(cart => cart.mount) // ex.[2, 1, 1]
-      .reduce((a, value) => a + value, 0 ) //a:累加器 value: 當前的值
-    return cartNum
-  }
+    if (user) {
+      console.log(user)
+      const res = await axios.get(`/carts`, { 
+        params: {
+          userId: user.email
+        }
+      });
+      
+      const carts  = res.data || []
+      const cartNum = carts
+        .map(cart => cart.mount) // ex.[2, 1, 1]
+        .reduce((a, value) => a + value, 0 ) //a:累加器 value: 當前的值
+      return cartNum
+    }
+  };
+
+  
 
 
 
@@ -126,7 +131,7 @@ class Products extends React.Component {
     return (
       <div>
         <ToolBox 
-          something="Hello" 
+          something="lim tê" 
           search={this.search} 
           cartNum={this.state.cartNum}/>
         <div className="products">
